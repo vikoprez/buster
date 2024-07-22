@@ -43,43 +43,30 @@ function main() {
       if (!document.querySelector('.solver-controls')) {
         const div = document.createElement('div');
         div.classList.add('solver-controls');
-
+  
         const button = document.createElement('button');
         button.classList.add('rc-button');
         button.setAttribute('tabindex', '0');
         button.setAttribute('title', getText('buttonLabel_reset'));
         button.id = 'reset-button';
-
+  
         button.addEventListener('click', resetCaptcha);
-
+  
         div.appendChild(button);
         document.querySelector('.rc-footer').appendChild(div);
       }
       return;
     }
-
+  
     const helpButton = document.querySelector('#recaptcha-help-button');
     if (helpButton) {
       helpButton.remove();
-
+  
       const helpButtonHolder = document.querySelector('.help-button-holder');
       helpButtonHolder.tabIndex = document.querySelector('audio#audio-source')
         ? 0
         : 2;
-
-      const shadow = helpButtonHolder.attachShadow({
-        mode: 'closed',
-        delegatesFocus: true
-      });
-
-      const link = document.createElement('link');
-      link.setAttribute('rel', 'stylesheet');
-      link.setAttribute(
-        'href',
-        browser.runtime.getURL('/src/base/solver-button.css')
-      );
-      shadow.appendChild(link);
-
+  
       solverButton = document.createElement('button');
       solverButton.setAttribute('tabindex', '0');
       solverButton.setAttribute('title', getText('buttonLabel_solve'));
@@ -87,12 +74,13 @@ function main() {
       if (solverWorking) {
         solverButton.classList.add('working');
       }
-
+  
       solverButton.addEventListener('click', solveChallenge);
-
-      shadow.appendChild(solverButton);
+  
+      helpButtonHolder.appendChild(solverButton);
     }
   }
+  
 
   function isBlocked({timeout = 0} = {}) {
     const selector = '.rc-doscaptcha-body';
