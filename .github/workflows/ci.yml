@@ -30,10 +30,8 @@ jobs:
           BUSTER_SECRETS: ${{ secrets.BUSTER_SECRETS }}
       - name: Hash artifacts
         run: sha256sum artifacts/*/*
-        if: startsWith(github.ref, 'refs/tags/v')
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
-        if: startsWith(github.ref, 'refs/tags/v')
         with:
           name: artifacts
           path: artifacts/
@@ -42,7 +40,6 @@ jobs:
     name: Release on GitHub
     runs-on: ubuntu-22.04
     needs: [build]
-    if: startsWith(github.ref, 'refs/tags/v')
     permissions:
       contents: write
     steps:
